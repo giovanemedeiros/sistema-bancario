@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Bancário</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/icons/icon_Favicon.svg">
+</head>
+<body>
+    <header>
+        <h1>Sistema Bancário</h1>
+    </header>
+    <main>
+        <!-------------------- Main page content -------------------->
+        <section>
+            <div class="button-group">
+                <button id="btnOpenTransfer">Nova Transferência</button>
+                <button id="btnCreateUser">Criar Usuários</button>
+                <button id="btnRemoveUsers">Remover Usuários</button>
+            </div>
+            <div class="main-field">
+                <h2 id="titleAccounts">Contas cadastradas</h2>
+                <div class="download-menu">
+                    <div class="download-options hidden">
+                        <img src="assets/icons/icon_CSV.svg" alt="CSV" title="Exportar para CSV">
+                        <img src="assets/icons/icon_Excel.svg" alt="Excel" title="Exportar para Excel">
+                        <img src="assets/icons/icon_PDF.svg" alt="PDF" title="Exportar para PDF">
+                    </div> 
+                    <img src="assets/icons/icon_Download.svg" alt="Download" class="icon-download" id="btnToggleDownload" title="Exportar tabela">
+                </div>
+            </div>
+            <div class="filter-container">
+                <input type="text" id="filterMainTable" class="filter-input" placeholder="Filtrar por nome ou conta..." aria-label="Filtrar contas por nome ou número">
+                <button type="button" id="btnClearMainFilter" class="btn-table-action">
+                    <img src="assets/icons/icon_Close.svg" alt="Limpar">
+                    Limpar
+                </button>
+                <button type="button" id="btnMainSearch" class="btn-table-action">
+                    <img src="assets/icons/icon_Search.svg" alt="Buscar">
+                    Buscar
+                </button>
+            </div>
+            <div class="main-table-wrapper">
+                <table id="accountsTable">
+                    <thead>
+                        <tr>
+                            <th>Conta</th>
+                            <th>Nome</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </section>
+        <!-------------------- Modal: create user -------------------->
+        <div id="modalCreateUser" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeCreateModal">&times;</button>
+                <h2>Criar Usuários</h2>
+                <div id="createMessage" class="message hidden"></div>    
+                <form id="createUserForm">
+                    <label for="newUserName">Nome:</label>
+                    <input type="text" id="newUserName" maxlength="35" placeholder="Digite o nome" required>
+
+                    <label for="newUserAccount">Número da Conta:</label>
+                    <input type="text" id="newUserAccount" maxlength="9" placeholder="Ex: 123456789" pattern="[0-9]+" inputmode="numeric" required>
+
+                    <label for="newUserBalance">Saldo Inicial:</label>
+                    <input type="text" id="newUserBalance" placeholder="R$ 0,00" inputmode="decimal" required>
+
+                    <button type="submit">Criar Usuário</button>
+                </form>
+            </div>
+        </div>
+        <!-------------------- Modal: edit user -------------------->
+        <div id="modalEditUser" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeEditModal">&times;</button>   
+                <h2>Editar Nome</h2>
+                <div id="editMessage" class="message hidden"></div> 
+                <form id= "editUserForm">
+                    <label>Nome:</label>
+                    <input type="text" id="editUserName" maxlength="35" placeholder="Digite o novo nome" required>
+                    <button type="submit" class="btn-table-action">Salvar</button>
+                </form>
+            </div>
+        </div>
+        <!-------------------- Modal: remove users -------------------->
+        <div id="modalRemoveUsers" class="modal">
+            <div class="modal-content modal-content-large">
+                <button class="close-btn" id="closeRemoveModal">&times;</button>
+                <h2>Remover Usuários</h2>
+                <div id="removeUserMessage" class="message hidden"></div>  
+                <div class="filter-container">
+                    <input type="text" id="filterUsers" class="filter-input" placeholder="Filtrar por nome ou conta..." aria-label="Filtrar usuários por nome ou número">
+                    <button type="button" id="btnClearModalFilter" class="btn-table-action">
+                        <img src="assets/icons/icon_Close.svg" alt="Limpar">
+                        Limpar
+                    </button>
+                    <button type="button" id="btnConfirmSearch" class="btn-table-action">
+                        <img src="assets/icons/icon_Search.svg" alt="Buscar">
+                        Buscar
+                    </button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="removeUsersTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAll" aria-label="Selecionar todos os usuários">
+                                </th>
+                                <th>Conta</th>
+                                <th>Nome</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="removeTableBody"></tbody>
+                    </table>
+                </div>
+                <button type="button" id="btnConfirmRemove" class="btn-danger">Excluir Selecionados</button>
+            </div>
+        </div>
+        <!-------------------- Modal: new transfer -------------------->
+        <div id="modalTransfer" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeTransferModal">&times;</button>
+                <h2>Nova Transferência</h2>
+                <div id="transferMessage" class="message hidden"></div>
+                <form id="transferForm">
+                    <label for="fromAccount">Conta de Origem:</label>
+                    <div class="originBalance">
+                        <div class="custom-select" id="fromAccountWrapper">
+                            <div class="custom-select-trigger" id="fromAccount">
+                                <span>Selecione uma conta</span>
+                                <div class="arrow">▼</div>
+                            </div>
+                            <div class="custom-options" id="fromAccountOptions"></div>
+                        </div>
+                        <span class="span-balance">Saldo:</span>
+                        <span id="originBalance">R$0,00</span>
+                    </div>
+                    <label for="toAccount">Conta de Destino:</label>
+                    <div class="destinationBalance">
+                        <div class="custom-select" id="toAccountWrapper">
+                            <div class="custom-select-trigger" id="toAccount">
+                                <span>Selecione uma conta</span>
+                                <div class="arrow">▼</div>
+                            </div>
+                            <div class="custom-options" id="toAccountOptions"></div>
+                        </div>
+                        <span class="span-balance">Saldo:</span>
+                        <span id="destinationBalance">R$0,00</span>
+                    </div>
+                    <label for="newTransferAmount">Valor da Transferência:</label>
+                    <input type="text" id="newTransferAmount" placeholder="R$ 0,00" required>
+                    <button type="submit">Transferir</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>© 2026 Sistema Bancário. Todos os direitos reservados.</p>
+    </footer>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script> <!-- Biblioteca para exportação Excel (XLSX) - versão 0.20.1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- Biblioteca para exportação PDF (jsPDF) - versão 2.5.1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script> <!-- Plugin jsPDF AutoTable para geração de tabelas em PDF - versão 3.5.31 -->
+    <script src="script.js"></script>
+</body>
+</html>
