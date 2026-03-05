@@ -450,7 +450,7 @@
         padding-right: 30px;
     }
 
-    /* Botão do Modal Transfer - Verde */
+    /* Transfer Modal Button - Green */
     #modalTransfer button[type="submit"] {
         background-color: #27ae60;
         color: white;
@@ -460,7 +460,7 @@
         background-color: #229954;
     }
 
-    /* Botão do Modal Create - Azul */
+    /* Create Modal Button - Blue */
     #modalCreateUser button[type="submit"] {
         background-color: #3498db;
         color: white;
@@ -476,7 +476,6 @@
         gap: 8px;
     }
 
-    /* Custom Select Styles */
     .custom-select {
         position: relative;
         width: 100%;

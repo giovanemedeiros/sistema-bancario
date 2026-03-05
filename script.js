@@ -1,17 +1,18 @@
 // -------------------- Global variables --------------------
 
-let selectedFromAccount = ""; // Variável para armazenar a conta de origem selecionada
-let selectedToAccount = ""; // Variável para armazenar a conta de destino selecionada
-let data = localStorage.getItem("bankUsers"); // Tenta carregar os usuários do localStorage
-let users = data ? JSON.parse(data) : []; // Tenta carregar do localStorage ou iniciar um array vazio
-let currentDisplayedUsers = users; // Para exportação
-let currentEditUser = null; // Para armazenar o usuário atualmente editado
+let selectedFromAccount = "";
+let selectedToAccount = "";
+let data = localStorage.getItem("bankUsers"); // Retrieves user data from localStorage (if any) to initialize the application state
+let users = data ? JSON.parse(data) : []; // Parses the retrieved data into a JavaScript array of user objects, or initializes an empty array if no data is found
+let currentDisplayedUsers = users; // Tracks currently filtered/displayed users for export
+let currentEditUser = null; // Stores the user being edited
 
 
 
 
 // -------------------- Initialization --------------------
 
+// Load 20 default users if localStorage is empty or null
 if (data === null || users.length === 0) {
     const defaultUsers = [
         {
@@ -79,6 +80,7 @@ if (data === null || users.length === 0) {
     users = defaultUsers;
 }
 
+// Renders user list in the main table and updates currentDisplayedUsers for exports
 function renderUsers(users) {
     const tableBody = document.getElementById("tableBody");
     tableBody.innerHTML = "";
@@ -126,6 +128,7 @@ btnClearMainFilter.addEventListener("click", function() {
 
 // -------------------- Usability --------------------
 
+// Close all modals when ESC key is pressed
 document.addEventListener("keydown", function(event) {
     if (event.key === "Escape") {
         closeTransferModal();
@@ -135,6 +138,7 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
+// Displays a message (success/error) that auto-hides after 5 seconds or on click
 function showMessage(messageElement, message, type) {
     messageElement.textContent = message;
     messageElement.classList.remove("error", "success");
@@ -191,6 +195,8 @@ balanceInput.addEventListener("blur", function() {
     formatCurrency(balanceInput);
 });
 
+// Formats input value as Brazilian currency (R$ 1.234,56)
+// Divides by 100 to convert cents to reais
 function formatCurrency(input) {
     let value = input.value.replace(/\D/g, "");
     
@@ -209,10 +215,12 @@ function formatCurrency(input) {
     input.value = formatted;
 }
 
+// Parses Brazilian currency string to float number
 function parseCurrency(value) {
     return parseFloat(value.replace(/[^0-9,-]+/g, "").replace(",", "."));
 }
 
+// Allows only letters, spaces, and Portuguese accents
 function formatName(input) {
     let value = input.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
     input.value = value;
@@ -377,6 +385,7 @@ function populateRemoveTable(usersArray = users) {
     });
 }
 
+// Synchronizes "Select All" checkbox state with individual user checkboxes
 function updateSelectAllState() {
     const allCheckboxes = document.querySelectorAll(".user-checkbox");
     const selectAllCheckbox = document.getElementById("selectAll");
@@ -492,6 +501,7 @@ function closeTransferModal() {
 btnOpenTransfer.addEventListener("click", openTransferModal);
 btnCloseTransfer.addEventListener("click", closeTransferModal);
 
+// Populates custom dropdown with user accounts and a clear option
 function populateCustomSelect(optionsContainer, type) {
     optionsContainer.innerHTML = "";
     
@@ -500,7 +510,7 @@ function populateCustomSelect(optionsContainer, type) {
     clearOption.classList.add("custom-option");
     clearOption.dataset.value = "";
     clearOption.textContent = "———";
-    clearOption.title = "Limpar seleção";
+    clearOption.title = "Clear selection";
     clearOption.style.textAlign = "left";
     
     clearOption.addEventListener("click", () => {
@@ -515,7 +525,7 @@ function populateCustomSelect(optionsContainer, type) {
         option.dataset.value = user.account;
         
         // Truncate only the name, keeping account number always visible
-        const maxNameLength = 15;
+        const maxNameLength = 30;
         const accountText = ` (${user.account})`;
         const displayName = user.name.length > maxNameLength 
             ? user.name.substring(0, maxNameLength) + "..."
@@ -532,6 +542,7 @@ function populateCustomSelect(optionsContainer, type) {
     });
 }
 
+// Handles custom dropdown selection, updates global variables and UI
 function selectOption(option, type) {
     const value = option.dataset.value;
     const text = option.textContent;
@@ -593,6 +604,7 @@ function resetCustomSelect(trigger, wrapper) {
     }
 }
 
+// Toggle origin account dropdown and reset scroll position when opened
 fromAccountTrigger.addEventListener("click", (e) => {
     e.stopPropagation();
     const wasOpen = fromAccountWrapper.classList.contains("open");
@@ -606,6 +618,7 @@ fromAccountTrigger.addEventListener("click", (e) => {
     }
 });
 
+// Toggle destination account dropdown and reset scroll position when opened
 toAccountTrigger.addEventListener("click", (e) => {
     e.stopPropagation();
     const wasOpen = toAccountWrapper.classList.contains("open");
@@ -619,6 +632,7 @@ toAccountTrigger.addEventListener("click", (e) => {
     }
 });
 
+// Close dropdowns when clicking outside them
 document.addEventListener("click", (e) => {
     if (!fromAccountWrapper.contains(e.target)) {
         fromAccountWrapper.classList.remove("open");
@@ -628,6 +642,7 @@ document.addEventListener("click", (e) => {
     }
 });
 
+// Updates balance display for selected account (origin or destination)
 function updateBalanceDisplay(type, spanElement) {
     const accountNumber = type === "from" ? selectedFromAccount : selectedToAccount;
     const user = users.find(u => u.account === accountNumber);
@@ -660,6 +675,7 @@ transferAmountInput.addEventListener("blur", function() {
     formatCurrency(transferAmountInput);
 });
 
+// Validate and process transfer between accounts
 transferAccountsValidate.addEventListener("submit", function(event) {
     event.preventDefault();
     
@@ -727,6 +743,7 @@ if (downloadOptionsContainer) {
     });
 }
 
+// Exports table data to CSV with UTF-8 BOM for Excel compatibility
 function exportToCSV() {
     // UTF-8 BOM for Excel to properly recognize special characters
     let csvContent = "\uFEFFConta,Nome,Saldo\n";
@@ -747,6 +764,7 @@ function exportToCSV() {
     URL.revokeObjectURL(url);
 }
 
+// Exports table data to Excel (.xlsx) using SheetJS library
 function exportToExcel() {
     // console.log(XLSX);
     const dataForExcel = currentDisplayedUsers.map(user => {
@@ -762,6 +780,7 @@ function exportToExcel() {
     XLSX.writeFile(workbook, "sistema-bancario.xlsx");
 }
 
+// Exports table data to PDF with custom styling and footer on all pages
 function exportToPDF() {
     const { jsPDF } = window.jspdf;
     // console.log(jsPDF);
@@ -786,7 +805,7 @@ function exportToPDF() {
         styles: { halign: "center" }
     });
     
-    // Footer
+    // Add copyright footer to all pages
     const pageCount = doc.internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
