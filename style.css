@@ -4,11 +4,13 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     body {
         font-family: Arial, sans-serif;
-        /* background-color: #f5f5f5; */
         background-color:grey;
         padding: 20px;
     }
@@ -36,7 +38,7 @@
         color: #2c3e50;
     }
 
-    .titleAccounts {
+    .title-accounts {
         margin-top:40px;
     }
 
@@ -113,7 +115,7 @@
         margin-top: -15px;
     }
 
-    #modalRemoveUsers .filter-container {
+    #modal-remove-users .filter-container {
         margin-top: 30px;
     }
 
@@ -168,30 +170,30 @@
 
     td { position: relative; }
 
-    #accountsTable td:nth-child(2) {
+    #accounts-table td:nth-child(2) {
         padding-right: 40px;
         word-break: break-word;
     }
 
-    #accountsTable {
+    #accounts-table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    #accountsTable th,
-    #accountsTable td {
+    #accounts-table th,
+    #accounts-table td {
         padding: 12px;
         text-align: center;
         border-bottom: 1px solid #ddd;
         border-left: 1px solid #ddd;
     }
 
-    #accountsTable th:first-child,
-    #accountsTable td:first-child {
+    #accounts-table th:first-child,
+    #accounts-table td:first-child {
         border-left: none;
     }
 
-    #accountsTable th {
+    #accounts-table th {
         background-color: #34495e;
         color: white;
         font-weight: bold;
@@ -200,29 +202,29 @@
         z-index: 10;
     }
 
-    #accountsTable tr:nth-child(even) {
+    #accounts-table tr:nth-child(even) {
         background-color: #f9f9f9;
     }
 
-    #removeUsersTable {
+    #remove-users-table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    #removeUsersTable th,
-    #removeUsersTable td {
+    #remove-users-table th,
+    #remove-users-table td {
         padding: 10px;
         text-align: center;
         border-bottom: 1px solid #ddd;
         border-left: 1px solid #ddd;
     }
 
-    #removeUsersTable th:first-child,
-    #removeUsersTable td:first-child {
+    #remove-users-table th:first-child,
+    #remove-users-table td:first-child {
         border-left: none;
     }
 
-    #removeUsersTable th {
+    #remove-users-table th {
         background-color: #34495e;
         color: white;
         position: sticky;
@@ -230,11 +232,11 @@
         z-index: 10;
     }
 
-    #removeUsersTable tbody tr:nth-child(even) {
+    #remove-users-table tbody tr:nth-child(even) {
         background-color: #f9f9f9;
     }
 
-    #removeUsersTable input[type="checkbox"] {
+    #remove-users-table input[type="checkbox"] {
         cursor: pointer;
         width: 18px;
         height: 18px;
@@ -260,30 +262,30 @@
         transform: scale(0.98);
     }
 
-    #btnCreateUser {
+    #btn-create-user {
         background-color: #3498db;
         color: white;
     }
 
-    #btnCreateUser:hover {
+    #btn-create-user:hover {
         background-color: #2980b9;
     }
 
-    #btnRemoveUsers {
+    #btn-remove-users {
         background-color: #e74c3c;
         color: white;
     }
 
-    #btnRemoveUsers:hover {
+    #btn-remove-users:hover {
         background-color: #c0392b;
     }
 
-    #btnOpenTransfer {
+    #btn-open-transfer {
         background-color: #27ae60;
         color: white;
     }
 
-    #btnOpenTransfer:hover {
+    #btn-open-transfer:hover {
         background-color: #229954;
     }
 
@@ -309,13 +311,11 @@
         margin-bottom: 10px;
         transform: translateY(-20px);
         cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
     }
 
     .download-options {
         display: flex;
         gap: 5px;
-        -webkit-tap-highlight-color: transparent;
     }
 
     .download-options img {
@@ -323,9 +323,7 @@
         height: 30px;
         cursor: pointer;
         transition: transform 0.2s, opacity 0.2s;
-        -webkit-tap-highlight-color: transparent;
         outline: none;
-        user-select: none;
         opacity: 1;
         transform: translateX(0);
     }
@@ -352,9 +350,7 @@
     }
 
     .icon-download {
-        -webkit-tap-highlight-color: transparent;
         outline: none;
-        user-select: none;
     }
 
 
@@ -371,9 +367,7 @@
         height: 20px;
         cursor: pointer;
         transition: transform 0.2s;
-        -webkit-tap-highlight-color: transparent;
         outline: none;
-        user-select: none;
     }
 
 
@@ -446,27 +440,25 @@
         opacity: 1;
     }
 
-    .modal-content select { 
+    .modal-content select {
         padding-right: 30px;
     }
 
-    /* Transfer Modal Button - Green */
-    #modalTransfer button[type="submit"] {
+    #modal-transfer button[type="submit"] {
         background-color: #27ae60;
         color: white;
     }
 
-    #modalTransfer button[type="submit"]:hover {
+    #modal-transfer button[type="submit"]:hover {
         background-color: #229954;
     }
 
-    /* Create Modal Button - Blue */
-    #modalCreateUser button[type="submit"] {
+    #modal-create-user button[type="submit"] {
         background-color: #3498db;
         color: white;
     }
 
-    #modalCreateUser button[type="submit"]:hover {
+    #modal-create-user button[type="submit"]:hover {
         background-color: #2980b9;
     }
 
@@ -480,7 +472,6 @@
         position: relative;
         width: 100%;
         flex-basis: 100%;
-        user-select: none;
     }
 
     .custom-select-trigger {
@@ -561,7 +552,7 @@
         margin-right: 5px;
     }
 
-    #originBalance, #destinationBalance {
+    #origin-balance, #destination-balance {
         font-size: 14px;
         font-weight: normal;
     }
@@ -618,16 +609,17 @@
 
 /* -------------------- Responsivity -------------------- */
 
-    @media (min-width: 768px) {
+    /* Desktop and tablet */
+    @media (min-width: 1024px) {
         body {
             padding: 20px;
             overflow: hidden;
         }
-        
+
         .modal-content {
             width: 500px;
         }
-        
+
         .button-group button {
             padding: 10px 20px;
             font-size: 14px;
@@ -642,22 +634,30 @@
             transform: translateY(-50%) scale(1.1);
         }
 
-        #accountsTable tr:hover {
+        #accounts-table tr:hover {
             background-color: #f1f1f1;
         }
 
-        #removeUsersTable tbody tr:hover {
+        #remove-users-table tbody tr:hover {
             background-color: #f1f1f1;
         }
     }
 
-    @media (max-width: 767px) {
+    /* Mobile portrait */
+    @media (max-width: 1023px) {
         body {
             padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
             font-size: 12px;
+        }
+
+        main {
+            margin-bottom: 5px;
         }
 
         .main-field h2 {
@@ -678,33 +678,31 @@
         }
 
         .main-table-wrapper {
-            height: calc(100vh - Xpx); 
-            /*  height: 390px; */ 
-
+            height: 50vh;
         }
 
-        #btnMainSearch, #btnClearMainFilter,
-        #btnConfirmSearch, #btnClearModalFilter {
+        #btn-main-search, #btn-clear-main-filter,
+        #btn-confirm-search, #btn-clear-modal-filter {
             min-width: 50px;
             padding: 10px 8px;
             font-size: 0;
         }
 
-        #btnMainSearch img,
-        #btnClearMainFilter img,
-        #btnConfirmSearch img,
-        #btnClearModalFilter img {
+        #btn-main-search img,
+        #btn-clear-main-filter img,
+        #btn-confirm-search img,
+        #btn-clear-modal-filter img {
             width: 28px;
             height: 28px;
             display: inline-block;
         }
 
-        #modalRemoveUsers .filter-input::placeholder {
+        #modal-remove-users .filter-input::placeholder {
             font-size: 12px;
         }
 
-        #removeUsersTable th,
-        #removeUsersTable td {
+        #remove-users-table th,
+        #remove-users-table td {
             padding: 8px;
         }
     }

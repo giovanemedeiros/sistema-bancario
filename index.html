@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Bancário</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/icons/icon_Favicon.svg">
+    <link rel="icon" href="assets/icons/icon-favicon.svg">
 </head>
 <body>
     <header>
@@ -15,34 +15,34 @@
         <!-------------------- Main page content -------------------->
         <section>
             <div class="button-group">
-                <button id="btnOpenTransfer">Nova Transferência</button>
-                <button id="btnCreateUser">Criar Usuários</button>
-                <button id="btnRemoveUsers">Remover Usuários</button>
+                <button id="btn-open-transfer">Nova Transferência</button>
+                <button id="btn-create-user">Criar Usuários</button>
+                <button id="btn-remove-users">Remover Usuários</button>
             </div>
             <div class="main-field">
-                <h2 id="titleAccounts">Contas cadastradas</h2>
+                <h2 id="title-accounts">Contas cadastradas</h2>
                 <div class="download-menu">
                     <div class="download-options hidden">
-                        <img src="assets/icons/icon_CSV.svg" alt="CSV" title="Exportar para CSV">
-                        <img src="assets/icons/icon_Excel.svg" alt="Excel" title="Exportar para Excel">
-                        <img src="assets/icons/icon_PDF.svg" alt="PDF" title="Exportar para PDF">
-                    </div> 
-                    <img src="assets/icons/icon_Download.svg" alt="Download" class="icon-download" id="btnToggleDownload" title="Exportar tabela">
+                        <img src="assets/icons/icon-csv.svg" alt="CSV" title="Exportar para CSV">
+                        <img src="assets/icons/icon-excel.svg" alt="Excel" title="Exportar para Excel">
+                        <img src="assets/icons/icon-pdf.svg" alt="PDF" title="Exportar para PDF">
+                    </div>
+                    <img src="assets/icons/icon-download.svg" alt="Download" class="icon-download" id="btn-toggle-download" title="Exportar tabela">
                 </div>
             </div>
             <div class="filter-container">
-                <input type="text" id="filterMainTable" class="filter-input" placeholder="Filtrar por nome ou conta..." aria-label="Filtrar contas por nome ou número">
-                <button type="button" id="btnClearMainFilter" class="btn-table-action">
-                    <img src="assets/icons/icon_Close.svg" alt="Limpar">
-                    Limpar
-                </button>
-                <button type="button" id="btnMainSearch" class="btn-table-action">
-                    <img src="assets/icons/icon_Search.svg" alt="Buscar">
+                <input type="text" id="filter-main-table" class="filter-input" placeholder="Filtrar por nome ou conta..." aria-label="Filtrar contas por nome ou número">
+                <button type="button" id="btn-main-search" class="btn-table-action">
+                    <img src="assets/icons/icon-search.svg" alt="Buscar">
                     Buscar
+                </button>
+                <button type="button" id="btn-clear-main-filter" class="btn-table-action">
+                    <img src="assets/icons/icon-close.svg" alt="Limpar">
+                    Limpar
                 </button>
             </div>
             <div class="main-table-wrapper">
-                <table id="accountsTable">
+                <table id="accounts-table">
                     <thead>
                         <tr>
                             <th>Conta</th>
@@ -50,111 +50,111 @@
                             <th>Saldo</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody"></tbody>
+                    <tbody id="table-body"></tbody>
                 </table>
             </div>
         </section>
         <!-------------------- Modal: create user -------------------->
-        <div id="modalCreateUser" class="modal">
+        <div id="modal-create-user" class="modal">
             <div class="modal-content">
-                <button class="close-btn" id="closeCreateModal">&times;</button>
+                <button class="close-btn" id="close-create-modal">&times;</button>
                 <h2>Criar Usuários</h2>
-                <div id="createMessage" class="message hidden"></div>    
-                <form id="createUserForm">
-                    <label for="newUserName">Nome:</label>
-                    <input type="text" id="newUserName" maxlength="35" placeholder="Digite o nome" required>
+                <div id="create-message" class="message hidden"></div>    
+                <form id="create-user-form">
+                    <label for="new-user-name">Nome:</label>
+                    <input type="text" id="new-user-name" maxlength="35" placeholder="Digite o nome" required>
 
-                    <label for="newUserAccount">Número da Conta:</label>
-                    <input type="text" id="newUserAccount" maxlength="9" placeholder="Ex: 123456789" pattern="[0-9]+" inputmode="numeric" required>
+                    <label for="new-user-account">Número da Conta:</label>
+                    <input type="text" id="new-user-account" maxlength="9" placeholder="Ex: 123456789" pattern="[0-9]+" inputmode="numeric" required>
 
-                    <label for="newUserBalance">Saldo Inicial:</label>
-                    <input type="text" id="newUserBalance" placeholder="R$ 0,00" inputmode="decimal" required>
+                    <label for="new-user-balance">Saldo Inicial:</label>
+                    <input type="text" id="new-user-balance" placeholder="R$ 0,00" inputmode="decimal" required>
 
                     <button type="submit">Criar Usuário</button>
                 </form>
             </div>
         </div>
         <!-------------------- Modal: edit user -------------------->
-        <div id="modalEditUser" class="modal">
+        <div id="modal-edit-user" class="modal">
             <div class="modal-content">
-                <button class="close-btn" id="closeEditModal">&times;</button>   
+                <button class="close-btn" id="close-edit-modal">&times;</button>   
                 <h2>Editar Nome</h2>
-                <div id="editMessage" class="message hidden"></div> 
-                <form id= "editUserForm">
+                <div id="edit-message" class="message hidden"></div> 
+                <form id="edit-user-form">
                     <label>Nome:</label>
-                    <input type="text" id="editUserName" maxlength="35" placeholder="Digite o novo nome" required>
+                    <input type="text" id="edit-user-name" maxlength="35" placeholder="Digite o novo nome" required>
                     <button type="submit" class="btn-table-action">Salvar</button>
                 </form>
             </div>
         </div>
         <!-------------------- Modal: remove users -------------------->
-        <div id="modalRemoveUsers" class="modal">
+        <div id="modal-remove-users" class="modal">
             <div class="modal-content modal-content-large">
-                <button class="close-btn" id="closeRemoveModal">&times;</button>
+                <button class="close-btn" id="close-remove-modal">&times;</button>
                 <h2>Remover Usuários</h2>
-                <div id="removeUserMessage" class="message hidden"></div>  
+                <div id="remove-user-message" class="message hidden"></div>  
                 <div class="filter-container">
-                    <input type="text" id="filterUsers" class="filter-input" placeholder="Filtrar por nome ou conta..." aria-label="Filtrar usuários por nome ou número">
-                    <button type="button" id="btnClearModalFilter" class="btn-table-action">
-                        <img src="assets/icons/icon_Close.svg" alt="Limpar">
-                        Limpar
-                    </button>
-                    <button type="button" id="btnConfirmSearch" class="btn-table-action">
-                        <img src="assets/icons/icon_Search.svg" alt="Buscar">
+                    <input type="text" id="filter-users" class="filter-input" placeholder="Filtrar por nome ou conta..." aria-label="Filtrar usuários por nome ou número">
+                    <button type="button" id="btn-confirm-search" class="btn-table-action">
+                        <img src="assets/icons/icon-search.svg" alt="Buscar">
                         Buscar
+                    </button>
+                    <button type="button" id="btn-clear-modal-filter" class="btn-table-action">
+                        <img src="assets/icons/icon-close.svg" alt="Limpar">
+                        Limpar
                     </button>
                 </div>
                 <div class="table-wrapper">
-                    <table id="removeUsersTable">
+                    <table id="remove-users-table">
                         <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox" id="selectAll" aria-label="Selecionar todos os usuários">
+                                    <input type="checkbox" id="select-all" aria-label="Selecionar todos os usuários">
                                 </th>
                                 <th>Conta</th>
                                 <th>Nome</th>
                                 <th>Saldo</th>
                             </tr>
                         </thead>
-                        <tbody id="removeTableBody"></tbody>
+                        <tbody id="remove-table-body"></tbody>
                     </table>
                 </div>
-                <button type="button" id="btnConfirmRemove" class="btn-danger">Excluir Selecionados</button>
+                <button type="button" id="btn-confirm-remove" class="btn-danger">Excluir Selecionados</button>
             </div>
         </div>
         <!-------------------- Modal: new transfer -------------------->
-        <div id="modalTransfer" class="modal">
+        <div id="modal-transfer" class="modal">
             <div class="modal-content">
-                <button class="close-btn" id="closeTransferModal">&times;</button>
+                <button class="close-btn" id="close-transfer-modal">&times;</button>
                 <h2>Nova Transferência</h2>
-                <div id="transferMessage" class="message hidden"></div>
-                <form id="transferForm">
-                    <label for="fromAccount">Conta de Origem:</label>
+                <div id="transfer-message" class="message hidden"></div>
+                <form id="transfer-form">
+                    <label for="from-account">Conta de Origem:</label>
                     <div class="originBalance">
-                        <div class="custom-select" id="fromAccountWrapper">
-                            <div class="custom-select-trigger" id="fromAccount">
+                        <div class="custom-select" id="from-account-wrapper">
+                            <div class="custom-select-trigger" id="from-account">
                                 <span>Selecione uma conta</span>
                                 <div class="arrow">▼</div>
                             </div>
-                            <div class="custom-options" id="fromAccountOptions"></div>
+                            <div class="custom-options" id="from-account-options"></div>
                         </div>
                         <span class="span-balance">Saldo:</span>
-                        <span id="originBalance">R$0,00</span>
+                        <span id="origin-balance">R$0,00</span>
                     </div>
-                    <label for="toAccount">Conta de Destino:</label>
+                    <label for="to-account">Conta de Destino:</label>
                     <div class="destinationBalance">
-                        <div class="custom-select" id="toAccountWrapper">
-                            <div class="custom-select-trigger" id="toAccount">
+                        <div class="custom-select" id="to-account-wrapper">
+                            <div class="custom-select-trigger" id="to-account">
                                 <span>Selecione uma conta</span>
                                 <div class="arrow">▼</div>
                             </div>
-                            <div class="custom-options" id="toAccountOptions"></div>
+                            <div class="custom-options" id="to-account-options"></div>
                         </div>
                         <span class="span-balance">Saldo:</span>
-                        <span id="destinationBalance">R$0,00</span>
+                        <span id="destination-balance">R$0,00</span>
                     </div>
-                    <label for="newTransferAmount">Valor da Transferência:</label>
-                    <input type="text" id="newTransferAmount" placeholder="R$ 0,00" required>
+                    <label for="new-transfer-amount">Valor da Transferência:</label>
+                    <input type="text" id="new-transfer-amount" placeholder="R$ 0,00" inputmode="decimal" required>
                     <button type="submit">Transferir</button>
                 </form>
             </div>

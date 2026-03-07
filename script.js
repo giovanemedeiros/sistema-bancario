@@ -82,14 +82,14 @@ if (data === null || users.length === 0) {
 
 // Renders user list in the main table and updates currentDisplayedUsers for exports
 function renderUsers(users) {
-    const tableBody = document.getElementById("tableBody");
+    const tableBody = document.getElementById("table-body");
     tableBody.innerHTML = "";
 
     users.forEach(user => {
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${user.account}</td>
-            <td>${user.name} <img src="assets/icons/icon_Edit.svg" class="icon-edit" title="Editar" data-account="${user.account}"></td>
+            <td>${user.name} <img src="assets/icons/icon-edit.svg" class="icon-edit" title="Editar" data-account="${user.account}"></td>
             <td>${user.balance.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
         `;
         tableBody.appendChild(row);
@@ -101,13 +101,13 @@ renderUsers(users);
 
 
 
-
 // -------------------- Main table --------------------
 
-const btnMainSearch = document.getElementById("btnMainSearch");
+const btnMainSearch = document.getElementById("btn-main-search");
+const btnClearMainFilter = document.getElementById("btn-clear-main-filter");
 
 btnMainSearch.addEventListener("click", function() {
-    const searchTerm = document.getElementById("filterMainTable").value.trim().toLowerCase();
+    const searchTerm = document.getElementById("filter-main-table").value.trim().toLowerCase();
     const filteredUsers = users.filter(user => {
         return user.name.toLowerCase().includes(searchTerm) || user.account.toLowerCase().includes(searchTerm);
     });
@@ -115,13 +115,10 @@ btnMainSearch.addEventListener("click", function() {
     renderUsers(filteredUsers);
 });
 
-const btnClearMainFilter = document.getElementById("btnClearMainFilter");
-
 btnClearMainFilter.addEventListener("click", function() {
-    document.getElementById("filterMainTable").value = "";
+    document.getElementById("filter-main-table").value = "";
     renderUsers(users);
 });
-
 
 
 
@@ -159,11 +156,17 @@ function showMessage(messageElement, message, type) {
 
 
 
+
 // -------------------- Create user (modal and logic) --------------------
 
-const modalCreateUser = document.getElementById("modalCreateUser");
-const btnOpenCreateUser = document.getElementById("btnCreateUser");
-const btnCloseCreateUser = document.getElementById("closeCreateModal");
+const modalCreateUser = document.getElementById("modal-create-user");
+const btnOpenCreateUser = document.getElementById("btn-create-user");
+const btnCloseCreateUser = document.getElementById("close-create-modal");
+const accountInput = document.getElementById("new-user-account");
+const balanceInput = document.getElementById("new-user-balance");
+const nameInput = document.getElementById("new-user-name");
+const createUserForm = document.getElementById("create-user-form");
+const createMessage = document.getElementById("create-message");
 
 function openCreateUserModal() {
     modalCreateUser.classList.add("open");
@@ -171,17 +174,13 @@ function openCreateUserModal() {
 
 function closeCreateUserModal() {
     modalCreateUser.classList.remove("open");
-    const createMessage = document.getElementById("createMessage");
     createMessage.classList.add("hidden");
     createMessage.classList.remove("error", "success");
-    document.getElementById("createUserForm").reset();
+    createUserForm.reset();
 }
 
 btnOpenCreateUser.addEventListener("click", openCreateUserModal);
 btnCloseCreateUser.addEventListener("click", closeCreateUserModal);
-
-const accountInput = document.getElementById("newUserAccount");
-const balanceInput = document.getElementById("newUserBalance");
 
 accountInput.addEventListener("input", function() {
     accountInput.value = accountInput.value.replace(/\D/g, "");
@@ -226,10 +225,6 @@ function formatName(input) {
     input.value = value;
 }
 
-const nameInput = document.getElementById("newUserName");
-const createUserForm = document.getElementById("createUserForm");
-const createMessage = document.getElementById("createMessage");
-
 nameInput.addEventListener("input", function() {
     formatName(nameInput);
 });
@@ -266,13 +261,12 @@ createUserForm.addEventListener("submit", function(event) {
 
 
 
-
 // -------------------- Edit user (modal and logic) --------------------
 
-const tableBody = document.getElementById("tableBody");
-const modalEditUser = document.getElementById("modalEditUser");
-const btnCloseEditUser = document.getElementById("closeEditModal");
-const editUserForm = document.getElementById("editUserForm");
+const tableBody = document.getElementById("table-body");
+const modalEditUser = document.getElementById("modal-edit-user");
+const btnCloseEditUser = document.getElementById("close-edit-modal");
+const editUserForm = document.getElementById("edit-user-form");
 
 tableBody.addEventListener("click", function(event) {
     if (event.target.classList.contains("icon-edit")) {
@@ -283,7 +277,7 @@ tableBody.addEventListener("click", function(event) {
 });
 
 function openEditUserModal(user) {
-    const editNameInput = document.getElementById("editUserName");
+    const editNameInput = document.getElementById("edit-user-name");
     modalEditUser.classList.add("open");
     editNameInput.value = user.name;
     currentEditUser = user;
@@ -292,21 +286,20 @@ function openEditUserModal(user) {
 }
 
 function closeEditUserModal() {
-    const editMessage = document.getElementById("editMessage");
+    const editMessage = document.getElementById("edit-message");
     modalEditUser.classList.remove("open");
     editMessage.classList.add("hidden");
     editMessage.classList.remove("error", "success");
-    document.getElementById("editUserForm").reset();
+    editUserForm.reset();
 }
 
 btnCloseEditUser.addEventListener("click", closeEditUserModal);
 
 editUserForm.addEventListener("submit", function(event) {
     event.preventDefault();
-    const editNameInput = document.getElementById("editUserName");
+    const editNameInput = document.getElementById("edit-user-name");
     const newName = editNameInput.value.trim();
-    const editMessage = document.getElementById("editMessage");
-
+    const editMessage = document.getElementById("edit-message");
 
     if (!newName) {
         showMessage(editMessage, "O nome do usuário é obrigatório.", "error");
@@ -326,25 +319,31 @@ editUserForm.addEventListener("submit", function(event) {
 
 
 
+
 // -------------------- Remove users (modal and logic) --------------------
 
-const modalRemoveUsers = document.getElementById("modalRemoveUsers");
-const btnOpenRemoveUsers = document.getElementById("btnRemoveUsers");
-const btnCloseRemoveUsers = document.getElementById("closeRemoveModal");
+const modalRemoveUsers = document.getElementById("modal-remove-users");
+const btnOpenRemoveUsers = document.getElementById("btn-remove-users");
+const btnCloseRemoveUsers = document.getElementById("close-remove-modal");
+const selectAllCheckbox = document.getElementById("select-all");
+const removeTableBody = document.getElementById("remove-table-body");
+const btnConfirmRemove = document.getElementById("btn-confirm-remove");
+const btnConfirmSearch = document.getElementById("btn-confirm-search");
+const btnClearModalFilter = document.getElementById("btn-clear-modal-filter");
 
 function openRemoveUsersModal() {
     modalRemoveUsers.classList.add("open");
     populateRemoveTable();
     
     // Clear filter and messages
-    document.getElementById("filterUsers").value = "";
-    const removeUserMessage = document.getElementById("removeUserMessage");
+    document.getElementById("filter-users").value = "";
+    const removeUserMessage = document.getElementById("remove-user-message");
     removeUserMessage.classList.add("hidden");
     removeUserMessage.classList.remove("error", "success");
     
     // Reset scroll position for table and modal
-    const tableWrapper = document.querySelector("#modalRemoveUsers .table-wrapper");
-    const modalContent = document.querySelector("#modalRemoveUsers .modal-content");
+    const tableWrapper = document.querySelector("#modal-remove-users .table-wrapper");
+    const modalContent = document.querySelector("#modal-remove-users .modal-content");
     
     if (tableWrapper) {
         tableWrapper.scrollTop = 0;
@@ -357,7 +356,6 @@ function openRemoveUsersModal() {
 
 function closeRemoveUsersModal() {
     modalRemoveUsers.classList.remove("open");
-    const selectAllCheckbox = document.getElementById("selectAll");
     const allCheckboxes = document.querySelectorAll(".user-checkbox");
     
     selectAllCheckbox.checked = false;
@@ -370,7 +368,6 @@ btnOpenRemoveUsers.addEventListener("click", openRemoveUsersModal);
 btnCloseRemoveUsers.addEventListener("click", closeRemoveUsersModal);
 
 function populateRemoveTable(usersArray = users) {
-    const removeTableBody = document.getElementById("removeTableBody");
     removeTableBody.innerHTML = "";
 
     usersArray.forEach(user => {
@@ -388,16 +385,10 @@ function populateRemoveTable(usersArray = users) {
 // Synchronizes "Select All" checkbox state with individual user checkboxes
 function updateSelectAllState() {
     const allCheckboxes = document.querySelectorAll(".user-checkbox");
-    const selectAllCheckbox = document.getElementById("selectAll");
-    
     const checkedCount = Array.from(allCheckboxes).filter(cb => cb.checked).length;
     
     selectAllCheckbox.checked = (checkedCount === allCheckboxes.length && allCheckboxes.length > 0);
 }
-
-const selectAllCheckbox = document.getElementById("selectAll");
-const removeTableBody = document.getElementById("removeTableBody");
-const btnConfirmRemove = document.getElementById("btnConfirmRemove");
 
 selectAllCheckbox.addEventListener("change", function() {
     const checkboxes = document.querySelectorAll(".user-checkbox");
@@ -415,7 +406,7 @@ removeTableBody.addEventListener("change", function(event) {
 
 btnConfirmRemove.addEventListener("click", function() {
     const selectedCheckboxes = document.querySelectorAll(".user-checkbox:checked");
-    const removeUserMessage = document.getElementById("removeUserMessage");
+    const removeUserMessage = document.getElementById("remove-user-message");
 
     if (selectedCheckboxes.length === 0) {
         showMessage(removeUserMessage, "Selecione pelo menos um usuário.", "error");
@@ -432,17 +423,13 @@ btnConfirmRemove.addEventListener("click", function() {
     showMessage(removeUserMessage, "Excluído(a) com sucesso!", "success");
 });
 
-
-const btnConfirmSearch = document.getElementById("btnConfirmSearch");
-
 btnConfirmSearch.addEventListener("click", function() {
-    const searchTerm = document.getElementById("filterUsers").value.trim().toLowerCase();
+    const searchTerm = document.getElementById("filter-users").value.trim().toLowerCase();
     const filteredUsers = users.filter(user => {
         return user.name.toLowerCase().includes(searchTerm) || user.account.toLowerCase().includes(searchTerm);
-
     });
 
-    const removeUserMessage = document.getElementById("removeUserMessage");
+    const removeUserMessage = document.getElementById("remove-user-message");
 
     if (filteredUsers.length === 0) {
         showMessage(removeUserMessage, "Nenhum usuário encontrado.", "error");
@@ -454,12 +441,10 @@ btnConfirmSearch.addEventListener("click", function() {
     populateRemoveTable(filteredUsers);
 });
 
-const btnClearModalFilter = document.getElementById("btnClearModalFilter");
-
 btnClearModalFilter.addEventListener("click", function() {
-    const removeUserMessage = document.getElementById("removeUserMessage");
+    const removeUserMessage = document.getElementById("remove-user-message");
     
-    document.getElementById("filterUsers").value = "";
+    document.getElementById("filter-users").value = "";
     removeUserMessage.classList.add("hidden");
     removeUserMessage.classList.remove("error", "success");
     populateRemoveTable();
@@ -467,17 +452,23 @@ btnClearModalFilter.addEventListener("click", function() {
 
 
 
+
 // -------------------- Transfer (modal and logic) --------------------
 
-const modalTransfer = document.getElementById("modalTransfer");
-const btnOpenTransfer = document.getElementById("btnOpenTransfer");
-const btnCloseTransfer = document.getElementById("closeTransferModal");
-const fromAccountTrigger = document.getElementById("fromAccount");
-const toAccountTrigger = document.getElementById("toAccount");
-const fromAccountOptions = document.getElementById("fromAccountOptions");
-const toAccountOptions = document.getElementById("toAccountOptions");
-const fromAccountWrapper = document.getElementById("fromAccountWrapper");
-const toAccountWrapper = document.getElementById("toAccountWrapper");
+const modalTransfer = document.getElementById("modal-transfer");
+const btnOpenTransfer = document.getElementById("btn-open-transfer");
+const btnCloseTransfer = document.getElementById("close-transfer-modal");
+const fromAccountTrigger = document.getElementById("from-account");
+const toAccountTrigger = document.getElementById("to-account");
+const fromAccountOptions = document.getElementById("from-account-options");
+const toAccountOptions = document.getElementById("to-account-options");
+const fromAccountWrapper = document.getElementById("from-account-wrapper");
+const toAccountWrapper = document.getElementById("to-account-wrapper");
+const fromBalanceSpan = document.getElementById("origin-balance");
+const toBalanceSpan = document.getElementById("destination-balance");
+const transferAccountsValidate = document.getElementById("transfer-form");
+const transferAmountInput = document.getElementById("new-transfer-amount");
+const transferMessage = document.getElementById("transfer-message");
 
 function openTransferModal() {
     modalTransfer.classList.add("open");
@@ -494,8 +485,8 @@ function closeTransferModal() {
     transferAccountsValidate.reset();
     resetCustomSelect(fromAccountTrigger, fromAccountWrapper);
     resetCustomSelect(toAccountTrigger, toAccountWrapper);
-    updateBalanceDisplay("from", document.getElementById("originBalance"));
-    updateBalanceDisplay("to", document.getElementById("destinationBalance"));
+    updateBalanceDisplay("from", document.getElementById("origin-balance"));
+    updateBalanceDisplay("to", document.getElementById("destination-balance"));
 }
 
 btnOpenTransfer.addEventListener("click", openTransferModal);
@@ -550,7 +541,7 @@ function selectOption(option, type) {
     if (type === "from") {
         if (value === "") {
             resetCustomSelect(fromAccountTrigger, fromAccountWrapper);
-            updateBalanceDisplay("from", document.getElementById("originBalance"));
+            updateBalanceDisplay("from", document.getElementById("origin-balance"));
             fromAccountWrapper.classList.remove("open");
             return;
         }
@@ -564,11 +555,11 @@ function selectOption(option, type) {
         });
         option.classList.add("selected");
         
-        updateBalanceDisplay("from", document.getElementById("originBalance"));
-    } else {
+        updateBalanceDisplay("from", document.getElementById("origin-balance"));
+        } else {
         if (value === "") {
             resetCustomSelect(toAccountTrigger, toAccountWrapper);
-            updateBalanceDisplay("to", document.getElementById("destinationBalance"));
+            updateBalanceDisplay("to", document.getElementById("destination-balance"));
             toAccountWrapper.classList.remove("open");
             return;
         }
@@ -582,7 +573,7 @@ function selectOption(option, type) {
         });
         option.classList.add("selected");
         
-        updateBalanceDisplay("to", document.getElementById("destinationBalance"));
+        updateBalanceDisplay("to", document.getElementById("destination-balance"));
     }
 }
 
@@ -597,7 +588,7 @@ function resetCustomSelect(trigger, wrapper) {
         });
     }
     
-    if (wrapper.id === "fromAccountWrapper") {
+    if (wrapper.id === "from-account-wrapper") {
         selectedFromAccount = "";
     } else {
         selectedToAccount = "";
@@ -637,6 +628,7 @@ document.addEventListener("click", (e) => {
     if (!fromAccountWrapper.contains(e.target)) {
         fromAccountWrapper.classList.remove("open");
     }
+    
     if (!toAccountWrapper.contains(e.target)) {
         toAccountWrapper.classList.remove("open");
     }
@@ -660,12 +652,6 @@ function updateBalanceDisplay(type, spanElement) {
     const formattedBalance = user.balance.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     spanElement.textContent = formattedBalance;
 }
-
-const fromBalanceSpan = document.getElementById("originBalance");
-const toBalanceSpan = document.getElementById("destinationBalance");
-const transferAccountsValidate = document.getElementById("transferForm");
-const transferAmountInput = document.getElementById("newTransferAmount");
-const transferMessage = document.getElementById("transferMessage");
 
 transferAmountInput.addEventListener("input", function() {
     formatCurrency(transferAmountInput);
@@ -715,16 +701,16 @@ transferAccountsValidate.addEventListener("submit", function(event) {
 
 
 
+
 // -------------------- Export --------------------
 
-const btnDownloadToggle = document.getElementById("btnToggleDownload");
+const btnDownloadToggle = document.getElementById("btn-toggle-download");
+const downloadOptionsContainer = document.querySelector(".download-options");
 
 btnDownloadToggle.addEventListener("click", function() {
-    const downloadOptions = document.querySelector(".download-options");
-    downloadOptions.classList.toggle("hidden");
+    downloadOptionsContainer.classList.toggle("hidden");
 });
 
-const downloadOptionsContainer = document.querySelector(".download-options");
 if (downloadOptionsContainer) {
     downloadOptionsContainer.addEventListener("click", function(event) {
         if (event.target.tagName === "IMG") {
@@ -812,16 +798,8 @@ function exportToPDF() {
         doc.setFont("helvetica", "normal");
         doc.setFontSize(10);
         doc.setTextColor(128, 128, 128);
-        doc.text("© 2026 Sistema Bancário | Todos os direitos reservados", 105, doc.internal.pageSize.height - 10, { align: "center" });
+        doc.text("© 2026 Sistema Bancário. Todos os direitos reservados.", 105, doc.internal.pageSize.height - 10, { align: "center" });
     }
     
     doc.save("sistema-bancario.pdf");
 }
-
-
-
-
-
-
-
-

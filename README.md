@@ -8,7 +8,16 @@ Sistema de gerenciamento de contas bancárias com **operações CRUD completas**
 
 ## 📸 Demonstração
 
-![Screenshot do Sistema](docs/images/sistema-bancario.png)
+<table border="0">
+  <tr>
+    <td>
+      <img src="docs/images/print-desktop.png" height="400">
+    </td>
+    <td>
+      <img src="docs/images/print-mobile.png" height="400">
+    </td>
+  </tr>
+</table>
 
 ---
 
