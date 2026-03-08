@@ -12,8 +12,8 @@ let currentEditUser = null; // Stores the user being edited
 
 // -------------------- Initialization --------------------
 
-// Load 20 default users if localStorage is empty or null
-if (data === null || users.length === 0) {
+// Load 20 default users only on first access (when localStorage has never been used)
+if (data === null) {
     const defaultUsers = [
         {
             name: "Juliana Santos", account: "987654", balance: 1250.50
